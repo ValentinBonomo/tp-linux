@@ -1,0 +1,4 @@
+Listening ports :
+-53:systemd-resolve
+-22:sshd
+-631:cupsd

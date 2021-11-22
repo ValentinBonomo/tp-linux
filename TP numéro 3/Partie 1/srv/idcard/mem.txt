@@ -1,0 +1,1 @@
+RAM :1,4Go RAM restante sur1,9Go RAM totale

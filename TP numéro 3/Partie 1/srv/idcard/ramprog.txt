@@ -1,0 +1,5 @@
+/usr/lib/x86_64-linux-gnu/xfce4/panel/wrapper-2
+/usr/lib/x86_64-linux-gnu/xfce4/panel/wrapper-2
+xfdesktop
+/usr/lib/xorg/Xorg -core :0 -seat seat0 -auth /var/run/lightdm/root/:0 -nolisten tcp vt7 -novtswitch
+xfwm4 --replace
