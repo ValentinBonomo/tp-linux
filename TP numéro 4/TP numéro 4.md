@@ -2,11 +2,11 @@
 
 ## I. Install de Rocky Linux : 
 
-Réalisé lors du cours d'introduction au tp 4.
+Réalisé lors du cours d'introduction du tp 4.
 
 ## II. Checklist : 
 
-### Choisissez et définissez une IP à la VM : 
+#### Choisissez et définissez une IP à la VM : 
 
 ```bash=
 [root@localhost eulamawaifu] cd /etc/sysconfig/network-scripts/
@@ -39,7 +39,7 @@ NETMASK=255.255.255.0
     inet6 fe80::a00:27ff:fe64:3a96/64 scope link
        valid_lft forever preferred_lft forever
 ```
-
+#### Vérification ssh actif : 
 ```bash=
 [root@localhost network-scripts] systemctl status sshd
 ● sshd.service - OpenSSH server daemon
@@ -61,7 +61,7 @@ Nov 23 11:34:06 localhost.localdomain sshd[1444]: Accepted password for eulamawa
 Nov 23 11:34:06 localhost.localdomain sshd[1444]: pam_unix(sshd:session): session opened for user eulamawaifu by (uid=0)
 ```
 
-Echange clés ssh : 
+#### Echange clés ssh : 
 
 ```bash=
 # Server
@@ -122,7 +122,9 @@ vlGm89Fi3u56kSyOzFlNt2KwFpG9+7S4k8G4RhnVvSwyjI+vi6H4w7C6uavE2Cgjryf8q1
 OxOA3ZWhjUEAAAAVdmFsZW5ATEFQVE9QLUFDS0tDNVVWAQIDBAUG
 -----END OPENSSH PRIVATE KEY-----
 ```
+Je viens de me rendre compte que j'ai oublié de noter la commande key-gen et ssh-copy-id dans le markdown dsl mais je peux plus la retrouver, ma vm est sur mon autre pc 😅 
 
+#### Test de ping pour savoir si l'accès internet est fonctionnelle
 ```bash=
 [root@localhost eulamawaifu] ping 8.8.8.8
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
@@ -136,7 +138,7 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 5 packets transmitted, 5 received, 0% packet loss, time 4005ms
 rtt min/avg/max/mdev = 24.100/25.379/26.947/1.045 ms
 ```
-
+#### Changement de nom de machine (tqt cette fois-ci même l'user n'est pas it4 xD)
 ```bash=
 [root@localhost eulamawaifu] hostname node1.tp4.linux
 [root@localhost eulamawaifu] nano /etc/hostname
@@ -149,7 +151,7 @@ node1.tp4.linux
 ## III. Mettre en place un service : 
 
 ### 2. Install : 
-
+#### Installation du service NGINX : 
 ```bash=
 [root@localhost eulamawaifu] dnf install nginx
 Last metadata expiration check: 1:01:06 ago on Tue 23 Nov 2021 11:01:08 AM CET.
@@ -185,7 +187,7 @@ Nov 23 12:02:33 node1.tp4.linux systemd[1]: Started The nginx HTTP and reverse p
 Created symlink /etc/systemd/system/multi-user.target.wants/nginx.service → /usr/lib/systemd/system/nginx.service.
 ```
 ### 3. Analyse : 
-
+#### Petites commandes de check
 ```bash=
 [root@localhost eulamawaifu] ps -ef | grep nginx
 root        4279       1  0 12:02 ?        00:00:00 nginx: master process /usr/sbin/nginx
@@ -209,7 +211,7 @@ total 20
 -rw-r--r--. 1 root root 1800 Jun 10 11:09 poweredby.png
 ```
 ### 4. Visite du service web : 
-
+#### Configuration du firewall : 
 ```bash=
 [root@node1 html] firewall-cmd --add-port=80/tcp --permanent
 success
@@ -231,11 +233,15 @@ public (active)
   icmp-blocks:
   rich rules:
 ```
-
+#### Test avec mon url
 ```bash=
 [root@node1 html] curl http://10.200.1.31
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 [...]
+```
+### 5.Modification de la conf du server web : 
+#### Changement du port d'écoute : 
+```bash=
 [root@node1 nginx] nano nginx.conf
 [root@node1 nginx] cat nginx.conf | grep 8080
         listen       8080 default_server;
@@ -273,12 +279,13 @@ success
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+```
+#### Création et changement user qui lance le service
+
+```bash=
 [root@node1 nginx] useradd web -m -p dbc
 [root@node1 nginx] ls /home/
 eulamawaifu  web
-```
-
-```bash=
 [root@node1 nginx] nano nginx.conf
 [root@node1 nginx] cat nginx.conf | grep web
 user web;
@@ -309,7 +316,7 @@ root        4852       1  0 13:07 ?        00:00:00 nginx: master process /usr/s
 web         4853    4852  0 13:07 ?        00:00:00 nginx: worker process
 root        4865    4405  0 13:08 pts/0    00:00:00 grep --color=auto nginx
 ```
-
+#### Changement de l'emplacement de la racine Web
 ```bash=
 [root@node1 nginx] cd /var/
 [root@node1 var] mkdir www
