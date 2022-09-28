@@ -60,3 +60,28 @@ Ben voilà la partie la plus intéréssante car comme je suis une grosse merde e
 
 ## 1. DHCP
 
+🌞Exploration du DHCP, depuis votre PC
+
+Alors ben là aussi c'est compliqué parce que je suis pas à Ynov donc pour obtenir l'ip du DHCP d'Ynov un peu compliqué cette histoire. Néanmoins je pense savoir ou la trouver :
+
+![](https://i.imgur.com/2BE56VE.png)
+
+On peut y voir l'adresse du DHCP mais aussi sa date d'expiration.
+
+## 2. DNS
+
+- 🌞 trouver l'adresse IP du serveur DNS que connaît votre ordinateur
+
+![](https://i.imgur.com/3kuA13z.png)
+
+- 🌞 utiliser, en ligne de commande l'outil `nslookup` (Windows, MacOS) ou `dig` (GNU/Linux, MacOS) pour faire des requêtes DNS à la main
+
+![](https://i.imgur.com/Isex9NS.png)
+
+Pour google et ynov la première address est l'ip du dns par contre les autres dsl mais jsp ;-;
+
+![](https://i.imgur.com/BMf0yZv.png)
+
+Dans le cas où un site fonctionnel (serveur allumé) la commande va nous renvoyer comme dans le cas 1 un url par contre dans le cas 2 92.146.54.88 aucun site correspondant à cette ip à été trouvé.
+
+# IV. Wireshark
