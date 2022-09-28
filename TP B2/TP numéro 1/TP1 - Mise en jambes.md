@@ -85,3 +85,14 @@ Pour google et ynov la première address est l'ip du dns par contre les autres d
 Dans le cas où un site fonctionnel (serveur allumé) la commande va nous renvoyer comme dans le cas 1 un url par contre dans le cas 2 92.146.54.88 aucun site correspondant à cette ip à été trouvé.
 
 # IV. Wireshark
+
+- 🌞 utilisez le pour observer les trames qui circulent entre vos deux carte Ethernet. Mettez en évidence : 
+
+![](https://i.imgur.com/JzqHtVw.png)
+
+Et les requêtes DNS : 
+
+![](https://i.imgur.com/MWA8PxT.png)
+
+
+Je ne peux pas faire le netcat car j'ai pas de mate donc un peu complexe sauf si il y avait une alternative mais je ne la connais pas.
