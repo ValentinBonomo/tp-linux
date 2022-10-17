@@ -94,3 +94,48 @@ tcp   ESTAB  0      52                   192.168.1.101:ssh       192.168.1.196:4
 ## 2. NFS
 
 🌞 **Mettez en place un petit serveur NFS sur l'une des deux VMs**
+
+Première VM
+(Ps: Je fais le compte rendu après avoir tout fini car j'ai eu pas mal d'erreur donc peut-être que je vais oublier de noter dans le markdown les commandes que j'ai tapé)
+
+```bash
+[ersjyhag@ersjyhag ~]$ sudo dnf -y install nfs-utils
+Last metadata expiration check: 3:36:37 ago on Mon 17 Oct 2022 09:38:28 AM CEST.
+Package nfs-utils-1:2.5.4-10.el9.x86_64 is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+[root@ersjyhag ~]$ cat /etc/idmapd.conf
+[General]
+#Verbosity = 0
+# The following should be set to the local NFSv4 domain name
+# The default is the host's DNS domain name.
+Domain = srv.world
+[...]
+[root@ersjyhag ~]$ cat /etc/exports
+/srv 192.168.1.101/24(rw,no_root_squash)
+[root@ersjyhag ~]$ systemctl enable --now rpcbind nfs-server
+[root@ersjyhag ~]$firewall-cmd --add-service=nfs
+success
+[root@ersjyhag ~]$firewall-cmd --add-service={nfs3,mountd,rpc-bind}
+success
+[root@ersjyhag ~]$firewall-cmd --runtime-to-permanent
+success
+```
+
+Sur la deuxième VM (après les installs) : 
+```bash
+[root@localhost ~]$ mkdir /srv/test
+[root@localhost ~]$ mount 192.168.1.102:/srv /srv/test
+[root@localhost test]$ touch valentin
+```
+
+Puis une vérif sur la première VM : 
+
+```bash
+[ersjyhag@ersjyhag ~]$ ls /srv
+fichier.txt  valentin
+```
+
+🌞 **Wireshark it !**
+
