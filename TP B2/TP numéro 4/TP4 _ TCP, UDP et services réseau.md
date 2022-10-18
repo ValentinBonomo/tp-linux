@@ -139,3 +139,60 @@ fichier.txt  valentin
 
 🌞 **Wireshark it !**
 
+sur le serv nfs
+```bash
+[root@ersjyhag srv]$ ls
+ersjyhag  fichier.txt  valentin
+[root@ersjyhag srv]$ tcpdump -i enp0s8 -s0 -w ersjyhag host 192.168.1.102
+dropped privs to tcpdump
+tcpdump: listening on enp0s8, link-type EN10MB (Ethernet), snapshot length 262144 bytes
+23 packets captured
+25 packets received by filter
+0 packets dropped by kernel
+[root@ersjyhag srv]$ ls
+ersjyhag  fichier.txt  test  valentin
+```
+Et sur le client
+```bash
+[ersjyhag@localhost test]$ sudo touch test
+[ersjyhag@localhost test]$ ls
+ersjyhag  fichier.txt  test  valentin
+```
+
+Puis pour connaître le port utilisé : 
+(Sur le serv)
+```bash
+[root@ersjyhag srv]$ rpcinfo -p | grep nfs
+    100003    3   tcp   2049  nfs
+    100003    4   tcp   2049  nfs
+    100227    3   tcp   2049  nfs_acl
+```
+
+🌞 **Demandez aux OS**
+
+Sur le serv
+
+```bash
+[root@ersjyhag srv]$ ss -a | grep nfs
+tcp   LISTEN 0      64                                        0.0.0.0:nfs                      0.0.0.0:*
+tcp   ESTAB  0      0                                   192.168.1.102:nfs                192.168.1.101:cimplex
+tcp   LISTEN 0      64                                           [::]:nfs                         [::]:*
+```
+
+Et sur le client
+```bash
+[ersjyhag@localhost test]$ ss -a | grep nfs
+tcp   ESTAB  0      0                                   192.168.1.101:cimplex            192.168.1.102:nfs
+```
+
+## 3. DNS
+
+🌞 **Utilisez une commande pour effectuer une requête DNS depuis une des VMs**
+
+sérieux je comprend pas j'ai essayé un max de commandes mais rien à faire ça veut pas.
+
+par exemple j'ai essayé juste de faire un dig pour savoir le port auquel dns se connectais puis j'ai trouvé que c'était 53 du coup j'ai essayé plein de truc comme
+sudo tcpdump -n -s 1500 udp and port 53
+tcpdump -i enp0s8 tcp port 53
+sudo tcpdump -n port 53
+et une fois les commandes lancé sur un terminale connecté en ssh je suis retourné sur le terminale de la vm pour faire des pings dig ou aussi nslookup mais je ne capturais aucun paquet
