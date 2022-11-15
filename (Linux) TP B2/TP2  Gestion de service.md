@@ -165,3 +165,36 @@ NewApac+    1802    1799  0 12:44 ?        00:00:00 /usr/sbin/httpd -DFOREGROUND
 NewApac+    1803    1799  0 12:44 ?        00:00:00 /usr/sbin/httpd -DFOREGROUND
 ersjyhag    2016     831  0 12:45 pts/0    00:00:00 grep --color=auto httpd
 ```
+
+🌞 **Faites en sorte que Apache tourne sur un autre port**
+
+```bash
+[ersjyhag@web ~]$ sudo nano /etc/httpd/conf/httpd.conf
+[ersjyhag@web ~]$ cat /etc/httpd/conf/httpd.conf | grep Listen
+Listen 99
+[ersjyhag@web ~]$ sudo firewall-cmd --add-port 99/tcp
+success
+[ersjyhag@web ~]$ sudo firewall-cmd --remove-port 80/tcp
+success
+[ersjyhag@web ~]$ sudo firewall-cmd --list-port
+99/tcp
+[ersjyhag@web ~]$ sudo ss -altpn | grep httpd
+LISTEN 0      511                *:99              *:*    users:(("httpd",pid=2061,fd=4),("httpd",pid=2060,fd=4),("httpd",pid=2059,fd=4),("httpd",pid=2057,fd=4))
+[ersjyhag@web ~]$ curl localhost:99
+<!doctype html>
+<html>
+[...]
+</html>
+```
+
+```bash
+valen@LAPTOP-ACKKC5UV MINGW64 ~
+$ curl 10.102.1.11:99
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0<!doctype html>
+<html>
+[...]
+</html>
+
+```
