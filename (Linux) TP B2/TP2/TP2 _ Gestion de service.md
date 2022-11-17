@@ -198,3 +198,5 @@ $ curl 10.102.1.11:99
 </html>
 
 ```
+
+Ben là comme c'est un pc différent et que le transfert de vm n'as pas marché je vais refaire le début du tp jusqu'à ici pour continuer.
