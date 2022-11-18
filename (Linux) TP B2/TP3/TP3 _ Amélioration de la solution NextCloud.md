@@ -108,3 +108,4 @@ exit
 [ersjyhag@web netdata]$ sudo stress -m 1 --vm-bytes 1G --vm-keep
 stress: info: [9457] dispatching hogs: 0 cpu, 0 io, 1 vm, 0 hdd
 ```
+![](https://i.imgur.com/ynRtczE.png)
